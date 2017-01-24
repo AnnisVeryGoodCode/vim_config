@@ -25,7 +25,8 @@ Plugin 'easymotion/vim-easymotion'          " moving quickly through file
 Plugin 'scrooloose/nerdcommenter'           " commenting
 Plugin 'nvie/vim-flake8'                    " style/syntax checking for python
 Plugin 'hynek/vim-python-pep8-indent'       " proper python indenting
-Plugin 'https://github.com/vim-scripts/vim-auto-save'   " saves when in normal
+Plugin 'vim-scripts/vim-auto-save'          " saves when in normal
+Plugin 'xolox/vim-session'                  " session management
 
 call vundle#end()
 
@@ -80,6 +81,8 @@ if &term =~ "xterm\\|rxvt"
   autocmd VimLeave * silent !echo -ne "\033]112\007"
   " use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
 endif
+
+autocmd FileType python nnoremap <buffer> <F7> :exec '!python3' shellescape(@%, 1)<cr>
 
 set cursorline
 hi CursorLine ctermbg=234 cterm=bold
