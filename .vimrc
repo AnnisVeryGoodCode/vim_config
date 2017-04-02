@@ -13,19 +13,20 @@ Plugin 'VundleVim/Vundle.vim'
 " Plugin 'kien/ctrlp.vim'
 " Plugin 'https://github.com/SirVer/ultisnips'
 " Plugin 'honza/vim-snippets'
+" Plugin 'xolox/vim-session'                " session management
 
 Plugin 'Valloric/YouCompleteMe'             " auto-completion
 Plugin 'jeetsukumaran/vim-indentwise'       " moving based on indent levels
 Plugin 'bogado/file-line'                   " open files with line number
 Plugin 'terryma/vim-multiple-cursors'       " sublime text style mult cursors
 Plugin 'vim-airline/vim-airline'            " bottom vim line
-Plugin 'vim-airline/vim-airline-themes' 
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/syntastic'               " syntax checking
 Plugin 'easymotion/vim-easymotion'          " moving quickly through file
 Plugin 'scrooloose/nerdcommenter'           " commenting
 Plugin 'nvie/vim-flake8'                    " style/syntax checking for python
 Plugin 'hynek/vim-python-pep8-indent'       " proper python indenting
-Plugin 'https://github.com/vim-scripts/vim-auto-save'   " saves when in normal
+Plugin 'vim-scripts/vim-auto-save'          " saves when in normal
 
 call vundle#end()
 
@@ -81,6 +82,8 @@ if &term =~ "xterm\\|rxvt"
   " use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
 endif
 
+autocmd FileType python nnoremap <buffer> <F7> :exec '!python3' shellescape(@%, 1)<cr>
+
 set cursorline
 hi CursorLine ctermbg=234 cterm=bold
 if has('win32') || has('win16')
@@ -113,7 +116,7 @@ nmap <PageUp> :tabp<CR>
 nmap <PageDown> :tabn<CR>
 
 " Compile and run C program
-map <F2> :! gcc % && sudo ./a.out <CR>
+" map <F2> :! gcc % && sudo ./a.out <CR>
 
 " Quick buffer switching
 :nnoremap <F3> :buffers<CR>:buffer<Space>
@@ -157,7 +160,7 @@ nnoremap J }
 nnoremap K {
 vnoremap J }
 vnoremap K {
-" jump before word / word
+" jump before word / after word
 nnoremap H b
 nnoremap L w
 vnoremap H b
@@ -180,8 +183,8 @@ vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-Q>', 'n') ==# ''
-  nnoremap <silent> <C-Q> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-Q>
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
 " Indenting
@@ -190,7 +193,7 @@ set autoindent
 set tabstop=4 shiftwidth=4 softtabstop=4
 set expandtab       " On pressing tab, insert X spaces
 
-" <Space> s does last search
+" <Space> s does last seach
 nnoremap <Leader>s /<Up><Up><CR>
 nnoremap <Leader>ss /<Up><Up><Up><CR>
 nnoremap <Leader>sss /<Up><Up><Up><Up><CR>
