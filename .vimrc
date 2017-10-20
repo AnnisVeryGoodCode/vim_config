@@ -1,7 +1,7 @@
 set nocompatible
 
-source /usr/share/vim/google/google.vim
-Glug g4
+"source /usr/share/vim/google/google.vim
+"Glug g4
 
 " -----------------------------------------------------------------------------
 " VUNDLE
@@ -31,7 +31,14 @@ Plugin 'nvie/vim-flake8'                    " style/syntax checking for python
 Plugin 'hynek/vim-python-pep8-indent'       " proper python indenting
 Plugin 'vim-scripts/vim-auto-save'          " saves when in normal
 Plugin 'henrik/vim-indexed-search'          " count search matches
-Plugin 'scrooloose/nerdtree'                " count search matches
+"Plugin 'scrooloose/nerdtree'
+Plugin 'evidanary/grepg.vim'
+Plugin 'lervag/vimtex'                      " Latex stuff
+"Plugin 'ctrlpvim/ctrlp.vim'                 " CtrlP
+Plugin 'junegunn/fzf'
+
+" Testing area
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
 
@@ -62,6 +69,7 @@ set number
 " line wrapping
 set textwidth=80
 set formatoptions+=t
+set formatoptions-=o
 
 " save marks on exit (only works for upper case or lower when buffer isn't cleared, :he 21.3 / E20)
 :set viminfo='1000,f1
@@ -76,6 +84,7 @@ set t_Co=256
 hi Visual ctermbg=236
 hi Search cterm=NONE ctermfg=black ctermbg=202
 
+" Grey out area after column 80.
 highlight ColorColumn ctermbg=233 guibg=#2c2d27
 let &colorcolumn=join(range(81,999),",")
 
@@ -221,7 +230,7 @@ nnoremap <silent> <C-G> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR
 "autocmd Filetype python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 set autoindent
 set tabstop=2 shiftwidth=2 softtabstop=2
-set expandtab       " On pressing tab, insert X spaces
+"set expandtab       " On pressing tab, insert X spaces
 
 " easily get to underscores within variable names
 nnoremap <Leader>w f_
@@ -289,7 +298,7 @@ nmap <Space>f <Plug>(easymotion-f)
 " -----------------------------------------------------------------------------
 " NERD TREE
 
-map <C-f> :NERDTreeToggle<CR>
+"map <C-f> :NERDTreeToggle<CR>
 
 " -----------------------------------------------------------------------------
 " NERD COMMENTER
