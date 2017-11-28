@@ -31,14 +31,15 @@ set wildmenu
 set synmaxcol=200              " improve performance by only applying syntax highlighting to 250 chars per line
 set noswapfile
 set sessionoptions-=options
+set sessionoptions+=tabpages,globals
 
-set textwidth=80
+set textwidth=300
 set formatoptions+=t
 set formatoptions-=o
 set viminfo='1000,f1 " save marks on exit (only works for upper case or lower when buffer isn't cleared, :he 21.3 / E20)
 
 set foldmethod=syntax
-set foldlevelstart=1
+set foldlevelstart=0
 " set foldlevel=20
 
 if !&scrolloff
@@ -88,10 +89,11 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/vim-easy-align'      " Aligning text
 Plugin 'easymotion/vim-easymotion'    " moving quickly through file
 Plugin 'majutsushi/tagbar'						" 
+Plugin 'tpope/vim-surround'
 
 " Testing area:
-Plugin 'Yggdroot/indentLine'
-Plugin 'tpope/vim-surround'
+Plugin 'gcmt/taboo.vim'								" Name tabs in tabline
+" Plugin 'Yggdroot/indentLine'
 "Plugin 'SirVer/ultisnips' " TODO
 "Plugin 'honza/vim-snippets'
 
@@ -134,6 +136,7 @@ map <Space> <Leader>
 
 " Replace word under cursor everywhere.
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
+vnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " replace word under cursor in insert mode, then . to replace other occurrences.
 nnoremap <Leader>i *Ncgn
@@ -303,10 +306,6 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '$USER/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
-" IndentLine
-let g:indentLine_color_term = 239
-let g:indentLine_char = '⎸'
-
 " fzf
 nmap <C-f> :Files<CR>
 nmap <C-t> :Tags<CR>
@@ -325,6 +324,12 @@ let NERDSpaceDelims=1
 
 " Tagbar
 nmap <F7> :TagbarToggle<CR>
+
+" IndentLine
+" let g:indentLine_color_term = 239
+" let g:indentLine_char = '⎸'
+" set list
+" set listchars=tab:>-
 
 " UltiSnips
 

@@ -66,7 +66,7 @@ hi VertSplit      ctermfg=250  ctermbg=250  cterm=bold
 hi StatusLineNC   ctermfg=235  ctermbg=231  cterm=bold
 hi StatusLine     ctermfg=235  ctermbg=231  cterm=bold
 
-hi Folded         ctermfg=235  ctermbg=106  cterm=NONE
+hi Folded         ctermfg=110  ctermbg=NONE  cterm=bold
 hi FoldColumn     ctermfg=235  ctermbg=248  cterm=NONE
 
 hi Visual         ctermfg=NONE ctermbg=239  cterm=NONE
