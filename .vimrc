@@ -33,7 +33,7 @@ set noswapfile
 set sessionoptions-=options
 set sessionoptions+=tabpages,globals
 
-set textwidth=300
+set textwidth=80
 set formatoptions+=t
 set formatoptions-=o
 set viminfo='1000,f1 " save marks on exit (only works for upper case or lower when buffer isn't cleared, :he 21.3 / E20)
@@ -90,9 +90,12 @@ Plugin 'junegunn/vim-easy-align'      " Aligning text
 Plugin 'easymotion/vim-easymotion'    " moving quickly through file
 Plugin 'majutsushi/tagbar'						" 
 Plugin 'tpope/vim-surround'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'gcmt/taboo.vim'								" Name tabs in tabline
 
 " Testing area:
-Plugin 'gcmt/taboo.vim'								" Name tabs in tabline
+Plugin 'xtal8/traces.vim'
+Plugin 'justinmk/vim-sneak'
 " Plugin 'Yggdroot/indentLine'
 "Plugin 'SirVer/ultisnips' " TODO
 "Plugin 'honza/vim-snippets'
@@ -123,7 +126,7 @@ if &term =~ "xterm\\|rxvt"
 endif
 
 " colorscheme burnttoast256
-colorscheme anni0
+colorscheme inbetween
 
 " -----------------------------------------------------------------------------
 " LEADER BINDINGS
@@ -324,6 +327,13 @@ let NERDSpaceDelims=1
 
 " Tagbar
 nmap <F7> :TagbarToggle<CR>
+
+" SimpylFold
+let g:SimpylFold_docstring_preview = 1
+let g:SimpylFold_fold_import = 0
+
+" Sneak
+
 
 " IndentLine
 " let g:indentLine_color_term = 239

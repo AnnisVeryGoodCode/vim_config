@@ -1,4 +1,4 @@
-" Vim color file - anni0
+" Vim color file - inbetween
 
 set background=dark
 if version > 580
@@ -9,7 +9,7 @@ if version > 580
 endif
 
 set t_Co=256
-let g:colors_name = "anni0"
+let g:colors_name = "inbetween"
 
 hi Normal         ctermfg=251  ctermbg=234  cterm=NONE
 
