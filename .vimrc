@@ -9,10 +9,12 @@ if has('syntax') && !exists('g:syntax_on')
 endif
 
 set autoindent
-set tabstop=2    " on pressing TAB
+set tabstop=2 " on pressing TAB
 set shiftwidth=2 " Shifting Text left or right using < and >
 set softtabstop=2
-" set expandtab    " On pressing tab, insert X spaces
+autocmd FileType python setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+" set list lcs=tab:\|\ 
+" set expandtab " On pressing tab, insert X spaces
 set backspace=indent,eol,start " BS behaviour
 
 set hlsearch
@@ -20,18 +22,17 @@ set incsearch
 set ignorecase
 set smartcase
 
-set number                     " Line numbers
-set matchpairs+=<:>            " matching by using % for <> pairs as well.
-set nrformats-=octal					 " Don't increment octal, only hex and dec.
-set laststatus=2							 " Always display status bar.
+set updatetime=2000
+set number " Line numbers
+set matchpairs+=<:> " matching by using % for <> pairs as well.
+set nrformats-=octal " Don't increment octal, only hex and dec.
 set nowrap
 set display+=lastline
-set timeoutlen=300             " Timeout for key presses, e.g. jk
+set timeoutlen=300 " Timeout for key presses, e.g. jk
 set wildmenu
-set synmaxcol=200              " improve performance by only applying syntax highlighting to 250 chars per line
+set synmaxcol=200 " improve performance by only applying syntax highlighting to 250 chars per line
 set noswapfile
-set sessionoptions-=options
-set sessionoptions+=tabpages,globals
+set sessionoptions=tabpages,winsize,buffers,globals
 
 set textwidth=80
 set formatoptions+=t
@@ -43,14 +44,14 @@ set foldlevelstart=0
 " set foldlevel=20
 
 if !&scrolloff
-  set scrolloff=5							 " Couple lines after bottom line / before top line with cursor
+  set scrolloff=5 " Couple lines after bottom line / before top line with cursor
 endif
 if !&sidescrolloff
-  set sidescrolloff=5					 " Couple columns after/before cursor in line
+  set sidescrolloff=5 " Couple columns after/before cursor in line
 endif
 
 if v:version > 703 || v:version == 703 && has("patch541")
-  set formatoptions+=j				 " Delete comment character when joining commented lines
+  set formatoptions+=j " Delete comment character when joining commented lines
 endif
 
 " Fix ALT key binding problems
@@ -60,7 +61,6 @@ for i in range(97,122)
   exec "map! \e".c." <M-".c.">"
 endfor
 
-
 " -----------------------------------------------------------------------------
 " VUNDLE
 
@@ -69,36 +69,37 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-"Plugin 'ervandew/supertab'
-
-Plugin 'Valloric/YouCompleteMe'       " auto-completion
+Plugin 'Valloric/YouCompleteMe' " auto-completion
 Plugin 'jeetsukumaran/vim-indentwise' " moving based on indent levels
 Plugin 'terryma/vim-multiple-cursors' " sublime text style mult cursors
-Plugin 'vim-airline/vim-airline'      " bottom vim line
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'scrooloose/syntastic'         " syntax checking
-Plugin 'scrooloose/nerdcommenter'     " commenting
-Plugin 'nvie/vim-flake8'              " style/syntax checking for python
+" Plugin 'vim-airline/vim-airline' " bottom vim line
+" Plugin 'vim-airline/vim-airline-themes'
+Plugin 'scrooloose/syntastic' " syntax checking
+Plugin 'scrooloose/nerdcommenter' " commenting
+Plugin 'nvie/vim-flake8' " style/syntax checking for python
 Plugin 'hynek/vim-python-pep8-indent' " proper python indenting
-Plugin 'vim-scripts/vim-auto-save'    " saves when in normal
-Plugin 'henrik/vim-indexed-search'    " count search matches
+Plugin 'vim-scripts/vim-auto-save' " saves when in normal
+Plugin 'henrik/vim-indexed-search' " count search matches
 Plugin 'evidanary/grepg.vim'
-Plugin 'lervag/vimtex'                " Latex stuff
+Plugin 'lervag/vimtex' " Latex stuff
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/vim-easy-align'      " Aligning text
-Plugin 'easymotion/vim-easymotion'    " moving quickly through file
-Plugin 'majutsushi/tagbar'						" 
+Plugin 'junegunn/vim-easy-align' " Aligning text
+Plugin 'easymotion/vim-easymotion' " moving quickly through file
 Plugin 'tpope/vim-surround'
 Plugin 'tmhedberg/SimpylFold'
-Plugin 'gcmt/taboo.vim'								" Name tabs in tabline
+Plugin 'gcmt/taboo.vim' " Name tabs in tabline
+Plugin 'MattesGroeger/vim-bookmarks'
 
 " Testing area:
-Plugin 'xtal8/traces.vim'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'justinmk/vim-sneak'
-" Plugin 'Yggdroot/indentLine'
-"Plugin 'SirVer/ultisnips' " TODO
-"Plugin 'honza/vim-snippets'
+Plugin 'wellle/targets.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'xtal8/traces.vim'
+Plugin 'Yggdroot/indentLine'
+Plugin 'SirVer/ultisnips' " TODO
+" Plugin 'Julian/vim-textobj-variable-segment' " not working??
 
 
 " Deprecated for now:
@@ -132,7 +133,7 @@ colorscheme inbetween
 " LEADER BINDINGS
 
 " abcdefghijklmnopqrstuvwxyz
-" ^^ ^ ^  ^^^^^  ^ ^^-  ^ ^^
+" ^^ ^ ^ ^^^^^^^ ^^^^^ ^^ ^^
 
 " Use space as leader key
 map <Space> <Leader>
@@ -141,35 +142,38 @@ map <Space> <Leader>
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 vnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-" replace word under cursor in insert mode, then . to replace other occurrences.
+" replace word/visual selection under cursor, then . to replace other occurrences.
 nnoremap <Leader>i *Ncgn
+vnoremap <Leader>i "zy/<C-r>z<CR>Ncgn
 
 " Paste from register holding most recent yank (instead of possibly last delete)
 nnoremap <Leader>p "0p
 nnoremap <Leader>P "0P
+vnoremap <Leader>p "0p
+vnoremap <Leader>P "0P
+
+" System clipboard copy/paste
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+nnoremap <Leader>v "+p
+nnoremap <Leader>V "+P
 
 " Delete line contents but don't delete the line
-nnoremap <Leader>d ^D
+nnoremap <Leader>d 0D
 
 " Duplicate line or selection.
 nnoremap <silent> <Leader>m "9yyp
 vnoremap <silent> <Leader>m "9y'>p
 
+" nnoremap <Leader>c :e tools/uhyve-ibv.c>%
+
 " Add 'todo' at the end of the line depending on filetype.
-autocmd Filetype c,cpp     nnoremap <silent> <Leader>t :normal A // TODO: <CR>A
-autocmd Filetype python    nnoremap <silent> <Leader>t :normal A # TODO: <CR>A
-autocmd Filetype vimscript nnoremap <silent> <Leader>t :normal A " TODO: <CR>A
+autocmd Filetype c,cpp nnoremap <silent> <Leader>t :normal A // TODO:<CR>A
+autocmd Filetype python nnoremap <silent> <Leader>t :normal A # TODO:<CR>A
+autocmd Filetype vimscript nnoremap <silent> <Leader>t :normal A " TODO:<CR>A
 
 " Easy Motion movements
-map <Leader>O <Plug>(easymotion-overwin-w)
-map <Leader>o <Plug>(easymotion-bd-w)
-map <Leader>f <Plug>(easymotion-bd-f)
-map <Leader>F <Plug>(easymotion-overwin-f)
-
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>l <Plug>(easymotion-wl)
-map <Leader>h <Plug>(easymotion-bl)
+map <Leader>o <Plug>(easymotion-bd-W)
 
 " Easily get to underscores within variable names
 nnoremap <Leader>w f_
@@ -180,7 +184,7 @@ vnoremap <Leader>b F_
 " <Space> s does last seach
 nnoremap <Leader>s /<Up><Up><CR>
 nnoremap <Leader>ss /<Up><Up><Up><CR>
-nnoremap <Leader>sss /<Up> <Up><Up><Up><CR>
+nnoremap <Leader>sss /<Up><Up><Up><Up><CR>
 
 " remove surrounding parens or if defines
 nnoremap <Leader>a %x<C-o>x
@@ -199,29 +203,70 @@ map <Leader>c <plug>NERDComToggleComment
 inoremap jk <Esc>
 inoremap kj <Esc>
 
-" jump up/down
-nnoremap J }
-nnoremap K {
+" Add numbered jumps to jumplist and use gk/gj to fix line wrap annoyance
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'gk'
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'gj'
+
+" jump up/down without adding motions to jumplist
+nnoremap <silent> J :<C-u>execute "keepjumps norm! " . v:count1 . "}"<CR>
+nnoremap <silent> K :<C-u>execute "keepjumps norm! " . v:count1 . "{"<CR>
 vnoremap J }
 vnoremap K {
+
+nnoremap { }
+vnoremap { }
+vnoremap } {
+nnoremap } {
+
 " jump before word / after word
 nnoremap H b
 nnoremap L w
 vnoremap H b
-vnoremap L w
+vnoremap L e
+
+" nnoremap \  middle?
+
+" nnoremap w W
+" nnoremap b B
+" vnoremap w W
+" vnoremap b B
+
+" Top/middle/bottom of page
+nnoremap { H
+nnoremap } L
+nnoremap + M
+
+" More convenient folding
+" nnoremap zc zC
+nnoremap zo zO
+nnoremap zr zR
+nnoremap zm zM
+
+" nnoremap zC zc
+nnoremap zO zo
+nnoremap zR zr
+nnoremap zM zm
 
 " Window switching
+" nmap <silent> <C-Left>  :wincmd h<CR>
+" nmap <silent> <C-Down>  :wincmd j<CR>
+" nmap <silent> <C-Up>    :wincmd k<CR>
+" nmap <silent> <C-Right> :wincmd l<CR>
 nmap <silent> <C-h> :wincmd h<CR>
-nmap <silent> <C-l> :wincmd l<CR>
-nmap <silent> <C-k> :wincmd k<CR>
 nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-l> :wincmd l<CR>
+"
 " Tab switching
-nmap <silent> <C-Right> :tabn<CR>
-nmap <silent> <C-Left>  :tabp<CR>
+nmap <silent> <Tab>     :tabp<CR>
+nmap <silent> <CR>      :tabn<CR>
+" nmap <silent> <C-Right> :tabn<CR>
+" nmap <silent> <C-Left>  :tabp<CR>
+"
 " Window resizing
 nmap <silent> <M-Right> :vertical resize +3<CR>
 nmap <silent> <M-Left>  :vertical resize -3<CR>
-nmap <silent> <M-Up>		:resize +3<CR>
+nmap <silent> <M-Up>    :resize +3<CR>
 nmap <silent> <M-Down>  :resize -3<CR>
 
 " Insert line above or below
@@ -229,8 +274,8 @@ nnoremap _ O<Esc>j
 nnoremap - o<Esc>k
 
 " Line wrap annoyance
-nnoremap j gj
-nnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
 " Y inconsistency (normally copies entire line as opposed to C and D)
 nnoremap Y y$
 " necessary remap
@@ -246,13 +291,16 @@ vnoremap ) $
 nnoremap 0 %
 vnoremap 0 %
 
+" Autoexpansion for curly braces
+" inoremap {<CR> {<CR>}<Esc>O
+
 " move lines/blocks down/up
-nnoremap <M-j> :m .+1<CR>==
-nnoremap <M-k> :m .-2<CR>==
-inoremap <M-j> <Esc>:m .+1<CR>==gi
-inoremap <M-k> <Esc>:m .-2<CR>==gi
-vnoremap <M-j> :m '>+1<CR>gv
-vnoremap <M-k> :m '<-2<CR>gv
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+inoremap <C-j> <Esc>:m .+1<CR>==gi
+inoremap <C-k> <Esc>:m .-2<CR>==gi
+vnoremap <C-j> :m '>+1<CR>gv
+vnoremap <C-k> :m '<-2<CR>gv
 
 " Search for selected text using * and #, n/N for forwards or backwards.
 vnoremap <silent> * :<C-U>
@@ -286,6 +334,165 @@ autocmd FileType python nnoremap <buffer> <F7> :exec '!python3' shellescape(@%, 
 " F6 reloads vimrc
 :map <F6> :so $MYVIMRC<CR>
 
+" -----------------------------------------------------------------------------
+" Statusline
+
+set laststatus=2 " Always display status bar.
+
+" Status Line:
+
+" Status Function: {{{2
+function! Status(winnum)
+  let active = a:winnum == winnr()
+  let bufnum = winbufnr(a:winnum)
+
+  let stat = ''
+
+  " this function just outputs the content colored by the
+  " supplied colorgroup number, e.g. num = 2 -> User2
+  " it only colors the input if the window is the currently
+  " focused one
+
+  function! Color(active, group, content)
+    if a:active
+      return '%#' . a:group . '#' . a:content . '%*'
+    else
+      return a:content
+    endif
+  endfunction
+
+  " this handles alternative statuslines
+  let usealt = 0
+
+  let type = getbufvar(bufnum, '&buftype')
+  let name = bufname(bufnum)
+
+  let altstat = ''
+
+  if type ==# 'help'
+    let altstat .= '%#SLHelp# HELP %* ' . fnamemodify(name, ':t:r')
+    let usealt = 1
+  elseif name ==# '__Gundo__'
+    let altstat .= ' Gundo'
+    let usealt = 1
+  elseif name ==# '__Gundo_Preview__'
+    let altstat .= ' Gundo Preview'
+    let usealt = 1
+  endif
+
+  if usealt
+    return altstat
+  endif
+
+  " column
+  " this might seem a bit complicated but all it amounts to is
+  " a calculation to see how much padding should be used for the
+  " column number, so that it lines up nicely with the line numbers
+
+  " an expression is needed because expressions are evaluated within
+  " the context of the window for which the statusline is being prepared
+  " this is crucial because the line and virtcol functions otherwise
+  " operate on the currently focused window
+
+  function! Column()
+    let vc = virtcol('.')
+    let ruler_width = max([strlen(line('$')), (&numberwidth - 1)]) + &l:foldcolumn
+    let column_width = strlen(vc)
+    let padding = ruler_width - column_width
+    let column = ''
+
+    if padding <= 0
+      let column .= vc
+    else
+      " + 1 because for some reason vim eats one of the spaces
+      let column .= repeat(' ', padding + 1) . vc
+    endif
+
+    return column . ' '
+  endfunction
+
+  let stat .= '%#SLColumn#'
+  let stat .= '%{Column()}'
+  let stat .= '%*'
+
+  if getwinvar(a:winnum, 'statusline_progress', 0)
+    let stat .= Color(active, 'SLProgress', ' %p ')
+  endif
+
+  " file name
+  " let stat .= Color(active, 'SLArrows', active ? ' »' : ' «')
+  let stat .= ' %<'
+  let stat .= '%f'
+  " let stat .= ' ' . Color(active, 'SLArrows', active ? '«' : '»')
+
+  " file modified
+  let modified = getbufvar(bufnum, '&modified')
+  let stat .= Color(active, 'SLLineNr', modified ? ' +++' : '')
+
+  " read only
+  let readonly = getbufvar(bufnum, '&readonly')
+  let stat .= Color(active, 'SLLineNR', readonly ? ' ---' : '')
+
+  " let stat .= \ %p%%
+  " let stat .= \ %l:%c
+
+  return stat
+
+endfunction
+" }}}
+
+" Status AutoCMD: {{{
+function! s:ToggleStatusProgress()
+  if !exists('w:statusline_progress')
+    let w:statusline_progress = 0
+  endif
+
+  let w:statusline_progress = !w:statusline_progress
+endfunction
+
+command! ToggleStatusProgress :call s:ToggleStatusProgress()
+
+nnoremap <silent> ,p :ToggleStatusProgress<CR>
+
+function! s:IsDiff()
+  let result = 0
+
+  for nr in range(1, winnr('$'))
+    let result = result || getwinvar(nr, '&diff')
+
+    if result
+      return result
+    endif
+  endfor
+
+  return result
+endfunction
+
+function! s:RefreshStatus()
+  for nr in range(1, winnr('$'))
+    call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+  endfor
+endfunction
+
+command! RefreshStatus :call <SID>RefreshStatus()
+
+augroup status
+  autocmd!
+  autocmd VimEnter,VimLeave,WinEnter,WinLeave,BufWinEnter,BufWinLeave * :RefreshStatus
+augroup END
+" }}}
+
+" }}}
+
+" function! StatuslineGit()
+  " let l:branchname = GitBranch()
+  " return strlen(l:branchname) > 0?' '.l:branchname.' ':''
+" endfunction
+
+" set statusline=
+" set statusline+=%{StatuslineGit()}
+
+
 
 " -----------------------------------------------------------------------------
 " PLUGINS
@@ -294,20 +501,42 @@ autocmd FileType python nnoremap <buffer> <F7> :exec '!python3' shellescape(@%, 
 let g:loaded_syntastic_java_javac_checker = 1
 
 " Indent Wise
-"map [[ <Plug>(IndentWisePreviousLesserIndent)
-"map ]] <Plug>(IndentWiseNextLesserIndent)
+map [[ <Plug>(IndentWisePreviousLesserIndent)
+map ]] <Plug>(IndentWiseNextLesserIndent)
 "map [= <Plug>(IndentWisePreviousEqualIndent)
 "map ]= <Plug>(IndentWiseNextEqualIndent)
 
 " Airline
-let g:airline_theme='light'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline_theme='light'
+" let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " You Complete Me
+" let g:loaded_youcompleteme = 1 " while testing completor
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '$USER/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_filetype_blacklist = {
+      \ 'tex' : 1,
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
+
+" Completor
+" let g:completor_python_binary = '/usr/lib/python3.5'
+" let g:completor_clang_binary = '/usr/bin/clang'
+" let g:completor_completion_delay = 20
+
+" imap <Tab> <C-n>
+" imap <S-Tab> <C-p>
 
 " fzf
 nmap <C-f> :Files<CR>
@@ -317,13 +546,26 @@ nmap <C-b> :Buffers<CR>
 " Easy Align
 vmap ga <Plug>(EasyAlign)
 
+" Vim Sneak
+nmap <Leader>j <Plug>Sneak_s
+nmap <Leader>k <Plug>Sneak_S
+xmap <Leader>j <Plug>Sneak_s
+xmap <Leader>k <Plug>Sneak_S
+
+let g:sneak#streak = 1
+let g:sneak#target_labels = ";asftjknuqm(){}<>/SFLTUNRMQZ?0"
+
 " Autosave
 let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
 let g:auto_save_silent = 1
+let g:auto_save_events = ["CursorHold"]
 
 " NERDCommenter
 let NERDSpaceDelims=1
+
+" Gitgutter
+let g:gitgutter_eager=0
 
 " Tagbar
 nmap <F7> :TagbarToggle<CR>
@@ -331,8 +573,6 @@ nmap <F7> :TagbarToggle<CR>
 " SimpylFold
 let g:SimpylFold_docstring_preview = 1
 let g:SimpylFold_fold_import = 0
-
-" Sneak
 
 
 " IndentLine
@@ -343,16 +583,18 @@ let g:SimpylFold_fold_import = 0
 
 " UltiSnips
 
-" make YCM compatible with UltiSnips (using supertab)
-"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-"let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:UltiSnipsSnippetsDir         = '~/.vim/ultisnips'
+let g:UltiSnipsSnippetDirectories  = [$HOME.'/.vim/ultisnips']
 
-" better key bindings for UltiSnipsExpandTrigger
-"let g:UltiSnipsExpandTrigger = "<C-s>"
-"let g:UltiSnipsJumpForwardTrigger = "<tab>"
-"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger       = '<C-n>'
+let g:UltiSnipsJumpForwardTrigger  = '<C-n>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 
+let g:UltiSnipsEditSplit           = "vertical"
+
+" MiniSnip
+
+" let g:minisnip_trigger = '<C-m>'
 
 " -----------------------------------------------------------------------------
 " DEPRECATION AREA
@@ -366,5 +608,5 @@ let g:SimpylFold_fold_import = 0
 "nmap <PageUp> :tabp<CR>
 "nmap <PageDown> :tabn<CR>
 
-" set relativenumber
+set relativenumber
 " set iskeyword-=_

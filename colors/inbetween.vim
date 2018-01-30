@@ -11,6 +11,11 @@ endif
 set t_Co=256
 let g:colors_name = "inbetween"
 
+" Statusline
+" TODO
+
+" Hi Groups
+
 hi Normal         ctermfg=251  ctermbg=234  cterm=NONE
 
 hi Search         ctermfg=233  ctermbg=172  cterm=NONE
@@ -20,6 +25,7 @@ hi Comment        ctermfg=106  ctermbg=NONE cterm=italic
 hi SpecialComment ctermfg=106  ctermbg=NONE cterm=italic
 
 hi String         ctermfg=242  ctermbg=NONE cterm=NONE
+hi texZone        ctermfg=242  ctermbg=NONE cterm=NONE
 
 hi Type           ctermfg=231  ctermbg=NONE cterm=bold
 hi Structure      ctermfg=231  ctermbg=NONE cterm=bold
@@ -63,15 +69,18 @@ hi TabLineSel     ctermfg=235  ctermbg=106  cterm=bold
 hi TabLineFill    ctermfg=15   ctermbg=236  cterm=bold
 
 hi VertSplit      ctermfg=250  ctermbg=250  cterm=bold
-hi StatusLineNC   ctermfg=235  ctermbg=231  cterm=bold
-hi StatusLine     ctermfg=235  ctermbg=231  cterm=bold
+hi StatusLineNC   ctermfg=235  ctermbg=250  cterm=NONE
+hi StatusLine     ctermfg=235  ctermbg=110  cterm=bold
 
-hi Folded         ctermfg=110  ctermbg=NONE  cterm=bold
+hi Folded         ctermfg=110  ctermbg=NONE cterm=bold
 hi FoldColumn     ctermfg=235  ctermbg=248  cterm=NONE
 
 hi Visual         ctermfg=NONE ctermbg=239  cterm=NONE
 
 hi Todo           ctermfg=234  ctermbg=250  cterm=NONE
+
+hi ExtraWhitespace             ctermbg=250  cterm=NONE
+autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 
 hi Number         ctermfg=172  ctermbg=NONE cterm=NONE
 hi Constant       ctermfg=172  ctermbg=NONE cterm=NONE
@@ -105,6 +114,12 @@ hi Directory      ctermfg=60   ctermbg=NONE cterm=bold
 hi Underlined     ctermfg=189  ctermbg=235  cterm=underline
 hi DiffAdd        ctermfg=NONE ctermbg=236  cterm=NONE
 hi cursorim       ctermfg=235  ctermbg=60   cterm=NONE
+
+syn region pythonDocstring  start=+^\s*[uU]\?[rR]\?"""+ end=+"""+ keepend excludenl contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError
+syn region pythonDocstring  start=+^\s*[uU]\?[rR]\?'''+ end=+'''+ keepend excludenl contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError
+
+hi link pythonDocstring Comment
+hi link pythonDocstring pythonComment
 
 "hi CTagsMember -- no settings --
 "hi CTagsGlobalConstant -- no settings --
