@@ -12,9 +12,10 @@ set autoindent
 set tabstop=2 " on pressing TAB
 set shiftwidth=2 " Shifting Text left or right using < and >
 set softtabstop=2
-autocmd FileType python setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+" autocmd FileType python setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+" autocmd FileType tex    setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 " set list lcs=tab:\|\ 
-" set expandtab " On pressing tab, insert X spaces
+set expandtab " On pressing tab, insert X spaces
 set backspace=indent,eol,start " BS behaviour
 
 set hlsearch
@@ -33,8 +34,10 @@ set wildmenu
 set synmaxcol=200 " improve performance by only applying syntax highlighting to 250 chars per line
 set noswapfile
 set sessionoptions=tabpages,winsize,buffers,globals
+set nojoinspaces
 
-set textwidth=80
+set textwidth=100
+
 set formatoptions+=t
 set formatoptions-=o
 set viminfo='1000,f1 " save marks on exit (only works for upper case or lower when buffer isn't cleared, :he 21.3 / E20)
@@ -47,7 +50,7 @@ if !&scrolloff
   set scrolloff=5 " Couple lines after bottom line / before top line with cursor
 endif
 if !&sidescrolloff
-  set sidescrolloff=5 " Couple columns after/before cursor in line
+  set sidescrolloff=5 " Couple rows after/before cursor in line
 endif
 
 if v:version > 703 || v:version == 703 && has("patch541")
@@ -71,7 +74,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe' " auto-completion
 Plugin 'jeetsukumaran/vim-indentwise' " moving based on indent levels
-Plugin 'terryma/vim-multiple-cursors' " sublime text style mult cursors
+" Plugin 'terryma/vim-multiple-cursors' " sublime text style mult cursors
 " Plugin 'vim-airline/vim-airline' " bottom vim line
 " Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/syntastic' " syntax checking
@@ -85,21 +88,23 @@ Plugin 'lervag/vimtex' " Latex stuff
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/vim-easy-align' " Aligning text
-Plugin 'easymotion/vim-easymotion' " moving quickly through file
+" Plugin 'easymotion/vim-easymotion' " moving quickly through file
 Plugin 'tpope/vim-surround'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'gcmt/taboo.vim' " Name tabs in tabline
 Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'justinmk/vim-sneak'
+Plugin 'airblade/vim-gitgutter'
 
 " Testing area:
-Plugin 'airblade/vim-gitgutter'
-Plugin 'justinmk/vim-sneak'
+Plugin 'tommcdo/vim-exchange'
 Plugin 'wellle/targets.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'xtal8/traces.vim'
 Plugin 'Yggdroot/indentLine'
-Plugin 'SirVer/ultisnips' " TODO
-" Plugin 'Julian/vim-textobj-variable-segment' " not working??
+Plugin 'SirVer/ultisnips'
+" Plugin 'xtal8/traces.vim'
+Plugin 'Julian/vim-textobj-variable-segment' " not working??
+Plugin 'kana/vim-textobj-user'
 
 
 " Deprecated for now:
@@ -133,7 +138,7 @@ colorscheme inbetween
 " LEADER BINDINGS
 
 " abcdefghijklmnopqrstuvwxyz
-" ^^ ^ ^ ^^^^^^^ ^^^^^ ^^ ^^
+" ^  ^^  ^^^^^^^ ^^^^^ ^  ^^
 
 " Use space as leader key
 map <Space> <Leader>
@@ -141,6 +146,18 @@ map <Space> <Leader>
 " Replace word under cursor everywhere.
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 vnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
+
+nnoremap <Leader>l  f_l
+vnoremap <Leader>l  f_l
+onoremap <Leader>l  t_
+onoremap i<Leader>l t_
+onoremap a<Leader>l f_
+nnoremap <Leader>h  hT_
+vnoremap <Leader>h  hT_
+
+" Go to letter at beginning (maybe end) of word
+" nnoremap <Leader>f
+" nnoremap <Leader>f
 
 " replace word/visual selection under cursor, then . to replace other occurrences.
 nnoremap <Leader>i *Ncgn
@@ -176,10 +193,10 @@ autocmd Filetype vimscript nnoremap <silent> <Leader>t :normal A " TODO:<CR>A
 map <Leader>o <Plug>(easymotion-bd-W)
 
 " Easily get to underscores within variable names
-nnoremap <Leader>w f_
-nnoremap <Leader>b F_
-vnoremap <Leader>w f_
-vnoremap <Leader>b F_
+" nnoremap <Leader>w f_
+" nnoremap <Leader>b F_
+" vnoremap <Leader>w f_
+" vnoremap <Leader>b F_
 
 " <Space> s does last seach
 nnoremap <Leader>s /<Up><Up><CR>
@@ -195,6 +212,10 @@ nnoremap <Leader>z i<Space><Esc>lli<Space><Esc>h
 " Nerd Commenter - toggle comment.
 map <Leader>c <plug>NERDComToggleComment
 
+" Cool Macros
+
+" TODO
+" (f{lyi{o%{{{\label{jkpF{a:jkA}jkkkk(lvttyjjjf:PA%}}}jk
 
 " -----------------------------------------------------------------------------
 " REMAPS
@@ -224,12 +245,27 @@ nnoremap L w
 vnoremap H b
 vnoremap L e
 
-" nnoremap \  middle?
+onoremap il iw
+onoremap al aw
+onoremap l w
+onoremap h b
 
-" nnoremap w W
-" nnoremap b B
-" vnoremap w W
-" vnoremap b B
+" w -> W
+nnoremap w W
+vnoremap w W
+onoremap w W
+onoremap iw aW
+onoremap aw aW
+
+" b -> B
+nnoremap b B
+vnoremap b B
+onoremap b B
+
+" e -> E -- maybe not nice?
+" nnoremap e E
+" vnoremap e E
+" onoremap e E
 
 " Top/middle/bottom of page
 nnoremap { H
@@ -270,9 +306,8 @@ nmap <silent> <M-Up>    :resize +3<CR>
 nmap <silent> <M-Down>  :resize -3<CR>
 
 " Insert line above or below
-nnoremap _ O<Esc>j
-nnoremap - o<Esc>k
-
+nnoremap <silent>- :set paste<CR>m`o<Esc>``:set nopaste<CR>
+nnoremap <silent>_ :set paste<CR>m`O<Esc>``:set nopaste<CR>
 " Line wrap annoyance
 " nnoremap j gj
 " nnoremap k gk
@@ -280,6 +315,7 @@ nnoremap - o<Esc>k
 nnoremap Y y$
 " necessary remap
 nnoremap Q J
+" nnoremap Q gJ
 
 " jump to beginning (soft) / end of line
 nnoremap ( _
@@ -552,8 +588,19 @@ nmap <Leader>k <Plug>Sneak_S
 xmap <Leader>j <Plug>Sneak_s
 xmap <Leader>k <Plug>Sneak_S
 
+" nmap s <Plug>Sneak_s
+" nmap S <Plug>Sneak_S
+" xmap s <Plug>Sneak_s
+" xmap S <Plug>Sneak_S
+
+" Replace one char f/t searching with one char sneak
+" map f <Plug>Sneak_f
+" map F <Plug>Sneak_F
+" map t <Plug>Sneak_t
+" map T <Plug>Sneak_T
+
 let g:sneak#streak = 1
-let g:sneak#target_labels = ";asftjknuqm(){}<>/SFLTUNRMQZ?0"
+let g:sneak#target_labels = "asftjkuqm(){}<>/SFTUNRMQZ?0"
 
 " Autosave
 let g:auto_save = 1
@@ -581,8 +628,13 @@ let g:SimpylFold_fold_import = 0
 " set list
 " set listchars=tab:>-
 
-" UltiSnips
+" Vim Exchange
+nmap ß  <Plug>(Exchange)
+xmap ß  <Plug>(Exchange)
+nmap ßß <Plug>(ExchangeLine)
+nmap ßx <Plug>(ExchangeClear)
 
+" UltiSnips
 let g:UltiSnipsSnippetsDir         = '~/.vim/ultisnips'
 let g:UltiSnipsSnippetDirectories  = [$HOME.'/.vim/ultisnips']
 
@@ -591,6 +643,9 @@ let g:UltiSnipsJumpForwardTrigger  = '<C-n>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
 
 let g:UltiSnipsEditSplit           = "vertical"
+
+" VimTex
+let g:tex_conceal = "" " Dont hide $ and 'prettify' subscripts etc.
 
 " MiniSnip
 
