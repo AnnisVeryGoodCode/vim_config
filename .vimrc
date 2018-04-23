@@ -8,36 +8,34 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
+" Indenting
 set autoindent
-set tabstop=2 " on pressing TAB
-set shiftwidth=2 " Shifting Text left or right using < and >
+set tabstop=2                  " on pressing TAB
+set shiftwidth=2               " Shifting Text left or right using < and >
 set softtabstop=2
-" autocmd FileType python setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-" autocmd FileType tex    setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-" set list lcs=tab:\|\ 
-set expandtab " On pressing tab, insert X spaces
-set backspace=indent,eol,start " BS behaviour
+set expandtab                  " On pressing tab, insert X spaces
+set backspace=indent,eol,start " Backspace behaviour
 
+" Searching
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
 
-set updatetime=2000
-set number " Line numbers
-set matchpairs+=<:> " matching by using % for <> pairs as well.
-set nrformats-=octal " Don't increment octal, only hex and dec.
-set nowrap
-set display+=lastline
-set timeoutlen=300 " Timeout for key presses, e.g. jk
-set wildmenu
-set synmaxcol=200 " improve performance by only applying syntax highlighting to 250 chars per line
+set updatetime=2000 " Swap file or saving file.
+set timeoutlen=300  " Timeout for key presses, e.g. jk
+
+set number
 set noswapfile
+set nowrap
+set matchpairs+=<:>
+set display+=lastline
+set wildmenu
 set sessionoptions=tabpages,winsize,buffers,globals
 set nojoinspaces
+set nrformats-=octal " Don't increment octal, only hex and dec.
 
-set textwidth=100
-
+set formatoptions+=j " Delete comment character when joining commented lines
 set formatoptions+=t
 set formatoptions-=o
 set viminfo='1000,f1 " save marks on exit (only works for upper case or lower when buffer isn't cleared, :he 21.3 / E20)
@@ -46,15 +44,14 @@ set foldmethod=syntax
 set foldlevelstart=0
 " set foldlevel=20
 
+set textwidth=80
+set synmaxcol=200    " improve performance by only applying syntax highlighting to 200 chars per line
+
 if !&scrolloff
-  set scrolloff=5 " Couple lines after bottom line / before top line with cursor
+  set scrolloff=4 " Couple lines after bottom line / before top line with cursor
 endif
 if !&sidescrolloff
-  set sidescrolloff=5 " Couple rows after/before cursor in line
-endif
-
-if v:version > 703 || v:version == 703 && has("patch541")
-  set formatoptions+=j " Delete comment character when joining commented lines
+  set sidescrolloff=4 " Couple rows after/before cursor in line
 endif
 
 " Fix ALT key binding problems
@@ -74,9 +71,6 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe' " auto-completion
 Plugin 'jeetsukumaran/vim-indentwise' " moving based on indent levels
-" Plugin 'terryma/vim-multiple-cursors' " sublime text style mult cursors
-" Plugin 'vim-airline/vim-airline' " bottom vim line
-" Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/syntastic' " syntax checking
 Plugin 'scrooloose/nerdcommenter' " commenting
 Plugin 'nvie/vim-flake8' " style/syntax checking for python
@@ -88,7 +82,6 @@ Plugin 'lervag/vimtex' " Latex stuff
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/vim-easy-align' " Aligning text
-" Plugin 'easymotion/vim-easymotion' " moving quickly through file
 Plugin 'tpope/vim-surround'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'gcmt/taboo.vim' " Name tabs in tabline
@@ -97,25 +90,24 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'airblade/vim-gitgutter'
 
 " Testing area:
+Plugin 't9md/vim-quickhl'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'wellle/targets.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'Yggdroot/indentLine'
 Plugin 'SirVer/ultisnips'
-" Plugin 'xtal8/traces.vim'
-Plugin 'Julian/vim-textobj-variable-segment' " not working??
+Plugin 'Julian/vim-textobj-variable-segment'
 Plugin 'kana/vim-textobj-user'
-
 
 " Deprecated for now:
 
+" Plugin 'xtal8/traces.vim'
 " Plugin 'scrooloose/nerdtree'
 
 " install vim with Python3 support to get this going
 " Plugin 'Rip-Rip/clang_complete'
 
 call vundle#end()
-
 
 " -----------------------------------------------------------------------------
 " VISUAL APPEARANCE
@@ -131,7 +123,6 @@ if &term =~ "xterm\\|rxvt"
   autocmd VimLeave * silent !echo -ne "\033]112\007" " reset cursor when vim exits
 endif
 
-" colorscheme burnttoast256
 colorscheme inbetween
 
 " -----------------------------------------------------------------------------
@@ -140,28 +131,41 @@ colorscheme inbetween
 " abcdefghijklmnopqrstuvwxyz
 " ^  ^^  ^^^^^^^ ^^^^^ ^  ^^
 
+" Keyboard
+" !@#$€`{}_+
+" ~\"' *()-=
+" `&[]^|<>%/
+
+" FREE
+" #$€`\`^|
+" What about & ??
+
+
 " Use space as leader key
 map <Space> <Leader>
+
+" Vim Sneak
+nmap <Leader>j <Plug>Sneak_s
+nmap <Leader>k <Plug>Sneak_S
+xmap <Leader>j <Plug>Sneak_s
+xmap <Leader>k <Plug>Sneak_S
+
+nnoremap <Leader>l  f_l
+vnoremap <Leader>l  f_l
+nnoremap <Leader>h  2T_
+vnoremap <Leader>h  2T_
 
 " Replace word under cursor everywhere.
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 vnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-nnoremap <Leader>l  f_l
-vnoremap <Leader>l  f_l
-onoremap <Leader>l  t_
-onoremap i<Leader>l t_
-onoremap a<Leader>l f_
-nnoremap <Leader>h  hT_
-vnoremap <Leader>h  hT_
-
-" Go to letter at beginning (maybe end) of word
-" nnoremap <Leader>f
-" nnoremap <Leader>f
-
 " replace word/visual selection under cursor, then . to replace other occurrences.
 nnoremap <Leader>i *Ncgn
 vnoremap <Leader>i "zy/<C-r>z<CR>Ncgn
+
+" Quickhl
+nmap <Leader>f <Plug>(quickhl-manual-this)
+xmap <Leader>f <Plug>(quickhl-manual-this)
 
 " Paste from register holding most recent yank (instead of possibly last delete)
 nnoremap <Leader>p "0p
@@ -169,11 +173,9 @@ nnoremap <Leader>P "0P
 vnoremap <Leader>p "0p
 vnoremap <Leader>P "0P
 
-" System clipboard copy/paste
+" System clipboard copy
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
-nnoremap <Leader>v "+p
-nnoremap <Leader>V "+P
 
 " Delete line contents but don't delete the line
 nnoremap <Leader>d 0D
@@ -182,26 +184,14 @@ nnoremap <Leader>d 0D
 nnoremap <silent> <Leader>m "9yyp
 vnoremap <silent> <Leader>m "9y'>p
 
-" nnoremap <Leader>c :e tools/uhyve-ibv.c>%
-
 " Add 'todo' at the end of the line depending on filetype.
 autocmd Filetype c,cpp nnoremap <silent> <Leader>t :normal A // TODO:<CR>A
 autocmd Filetype python nnoremap <silent> <Leader>t :normal A # TODO:<CR>A
 autocmd Filetype vimscript nnoremap <silent> <Leader>t :normal A " TODO:<CR>A
 
-" Easy Motion movements
-map <Leader>o <Plug>(easymotion-bd-W)
-
-" Easily get to underscores within variable names
-" nnoremap <Leader>w f_
-" nnoremap <Leader>b F_
-" vnoremap <Leader>w f_
-" vnoremap <Leader>b F_
-
-" <Space> s does last seach
+" Perform most recent search.
 nnoremap <Leader>s /<Up><Up><CR>
 nnoremap <Leader>ss /<Up><Up><Up><CR>
-nnoremap <Leader>sss /<Up><Up><Up><Up><CR>
 
 " remove surrounding parens or if defines
 nnoremap <Leader>a %x<C-o>x
@@ -581,12 +571,6 @@ nmap <C-b> :Buffers<CR>
 
 " Easy Align
 vmap ga <Plug>(EasyAlign)
-
-" Vim Sneak
-nmap <Leader>j <Plug>Sneak_s
-nmap <Leader>k <Plug>Sneak_S
-xmap <Leader>j <Plug>Sneak_s
-xmap <Leader>k <Plug>Sneak_S
 
 " nmap s <Plug>Sneak_s
 " nmap S <Plug>Sneak_S
