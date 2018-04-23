@@ -129,7 +129,7 @@ colorscheme inbetween
 " LEADER BINDINGS
 
 " abcdefghijklmnopqrstuvwxyz
-" ^  ^^  ^^^^^^^ ^^^^^ ^  ^^
+" ^  ^ ^ ^^^^^^  ^ ^^^    ^^
 
 " Keyboard
 " !@#$€`{}_+
@@ -140,20 +140,19 @@ colorscheme inbetween
 " #$€`\`^|
 " What about & ??
 
-
 " Use space as leader key
 map <Space> <Leader>
+
+nnoremap <Leader>l  f_l
+vnoremap <Leader>l  f_l
+nnoremap <Leader>h  2T_
+vnoremap <Leader>h  2T_
 
 " Vim Sneak
 nmap <Leader>j <Plug>Sneak_s
 nmap <Leader>k <Plug>Sneak_S
 xmap <Leader>j <Plug>Sneak_s
 xmap <Leader>k <Plug>Sneak_S
-
-nnoremap <Leader>l  f_l
-vnoremap <Leader>l  f_l
-nnoremap <Leader>h  2T_
-vnoremap <Leader>h  2T_
 
 " Replace word under cursor everywhere.
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
